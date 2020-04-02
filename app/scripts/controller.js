@@ -534,6 +534,14 @@ angular.module('netbase')
   });
   //END Courses.getCoursesByAccount()
 
+  $scope.moduleCreate = function(id) {
+    console.log('course id is ', id);
+    ngDialog.open({ template: 'partials/courses/modals/modulecreate.html', controller: 'CoursesModulosCriarCtrl', className: 'ngdialog-theme-default', 
+    data: {
+      courseId: id
+    }});
+  }
+
 }])
 
 .controller('CoursesByIdCtrl', ['$rootScope', '$scope', '$location', '$route', '$localStorage', 'Students', 'ngDialog', 'Courses', function($rootScope, $scope, $location, $route, $localStorage, Students, ngDialog, Courses) {
@@ -589,6 +597,8 @@ angular.module('netbase')
 
   $scope.activeSection = "modulos";
 
+  let courseId = $scope.ngDialogData.courseId;
+
   $scope.criar = function() {
 
     /* */
@@ -599,12 +609,13 @@ angular.module('netbase')
       title : $scope.title,
       duration : $scope.duration,
       description : $scope.description,
-      goal : $scope.goal
+      goal : $scope.goal,
+      courseId: courseId
     };
 
     console.log(formdata);
 
-    Courses.moduleCreate(formdata).success(function(res) {
+    Courses.createModule(formdata).success(function(res) {
 
       console.log(res)
 
@@ -1069,7 +1080,7 @@ angular.module('netbase')
 
 /* home courses */
 
-.controller('HomeCoursesCtrl', ['$rootScope', '$scope', '$location', '$route', '$localStorage', 'Students', 'ngDialog', '$timeout', 'Courses', '$filter', function($rootScope, $scope, $location, $route, $localStorage, Students, ngDialog, $timeout, Courses, $filter) {
+.controller('HomeCoursesCtrl', ['$rootScope', '$scope', '$location', '$route', '$localStorage', 'Students', 'ngDialog', '$timeout', 'Courses', 'Knowledge', '$filter', function($rootScope, $scope, $location, $route, $localStorage, Students, ngDialog, $timeout, Courses, Knowledge, $filter) {
 
   Courses.getAll().success(function(res) {
 
@@ -1077,6 +1088,11 @@ angular.module('netbase')
     console.log(res);
     $scope.courses = res.data;
 
+  });
+
+  Knowledge.getAllPaginated().success(function(res){
+    console.log('knowledge res', res);
+    $scope.knowledge = res.data.docs;
   });
 
   $scope.textFilter = function(text) {

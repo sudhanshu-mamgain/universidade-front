@@ -2,6 +2,20 @@
 
 <style>
 
+  .section-cards {
+   scrollbar-width: none;
+  }
+
+  .section-cards::-webkit-scrollbar {
+    display: none;
+  }
+
+  .section-cards {
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
+    margin-bottom: 10px;
+  }
+
   @media screen and (max-width: 768px) {
     .navbar-slider {
       display: none;
@@ -27,38 +41,48 @@
   <!-- Welcome -->
   <div class="row">
 
-    <div class="col-sm-4 col-md-3 section-menu-col">
+    <div class="col-sm-2 col-md-2 section-menu-col">
 
-      <div class="section-menu-title">Universidades</div>
+      <!--
+      <div ng-show="logged" class="section-menu-title">Universidades</div>
 
-      <div class="section-menu">
+      <div ng-show="logged" class="section-menu">
         <timelinemenuuniversity uid="{{u.universityId}}" ng-if="u.unsubscribed == false" ng-repeat="u in user.universitiesSubscribed"></timelinemenuuniversity>
         <div ng-if="user.universitiesSubscribed.length == 0" class="option">Você não esta registrado em nenhuma Universidade</div>
       </div>
+      -->
 
     </div>
     <!-- col-sm-8 -->
 
-    <div class="col-xs-12 col-sm-8 col-md-9 section-content-col">
+    <style>
+      .knowledge-home-title {
+        font-size: 1.2em; font-weight: bold; display: inline-block; margin-right: 10px; color: #ccc;
+      }
+      .knowledge-home-title:hover {
+        color: #000;
+        cursor: pointer;
+      }
+    </style>
+
+    <div class="col-xs-12 col-sm-10 col-md-10 section-content-col">
 
       <div style="height: 10px"></div>
 
-      <div style="padding-left: 15px; padding-right: 15px;">
-        <div style="font-size: 1.2em; font-weight: bold; display: inline-block; margin-right: 10px;">Popular</div>
-        <div style="font-size: 1.2em; font-weight: bold; display: inline-block; margin-right: 10px; color: #ccc;">Tech</div>
-        <div style="font-size: 1.2em; font-weight: bold; display: inline-block; margin-right: 10px; color: #ccc;">Business</div>
-        <div style="font-size: 1.2em; font-weight: bold; display: inline-block; margin-right: 10px; color: #ccc;">Art</div>
+      <div class="section-cards" style="padding-left: 15px; padding-right: 15px; padding-bottom: 0px;">
+        <div style="font-size: 1.2em; font-weight: bold; display: inline-block; margin-right: 10px; color: #000;">Popular</div>
+        <div class="knowledge-home-title" ng-repeat="knowledge in knowledges">{{knowledge.title}}</div>
       </div>
 
       <div style="height: 0px"></div>
 
-      <div class="section-cards" style="padding-bottom: unset; margin-top: 5px; padding-left: 15px;">
+      <div class="section-cards" style="padding-bottom: unset; margin-top: 5px; padding-left: 15px; padding-top: 4px;">
 
         <!-- 5db3e7e9225728001769dc5f -->
 
         <homeuniversitynewcard uid="5db3e7e9225728001769dc5f"></homeuniversitynewcard>
 
-        <homeuniversitynewcard uid="5cb96505ae38fe00154a34a5"></homeuniversitynewcard>
+        <homeuniversitynewcard uid="5e8c426355d961001762ffa9"></homeuniversitynewcard>
 
         <homeuniversitynewcard uid="5d8bc148098677001707d027"></homeuniversitynewcard>
 
@@ -70,7 +94,7 @@
 
       </div>
 
-      <div style="height: 52px; background-color: #e8e8e8; padding-left: 15px; position: relative;">
+      <div ng-if="!logged" class="animated flipInX delay-5s slower" style="height: 52px; background-color: #e8e8e8; padding-left: 15px; position: relative; margin-bottom: 5px;">
 
         <div style="position: absolute; right: 15px; top: 17px;"><i class="fas fa-chevron-right"></i></div>
         <div style="font-weight: bold; letter-spacing: -0.5px; color: #2d4255; font-size: 1.6em; line-height: 1.1em; padding-top: 6px;">Novo na Universidade?</div>
@@ -86,22 +110,30 @@
       </div>-->
       <!-- -->
 
-      <div style="height: 15px"></div>
+      <div style="height: 7px"></div>
 
-      <div style="margin-left: 15px; padding-right: 15px; overflow-x: scroll; height: 70px; white-space: nowrap; ">
+      <div class="section-cards" style="padding-left: 15px; padding-right: 15px; overflow-x: scroll; overflow-y: hidden; height: 70px; white-space: nowrap; ">
 
-        <div style="display: inline-block; margin-right: 10px; text-align: center;">
+        <style>
+
+          .knowledge-circle {
+            display: inline-block; margin-right: 10px; text-align: center; cursor: pointer;
+          }
+
+        </style>
+
+        <div class="knowledge-circle">
           <img src="https://image.flaticon.com/icons/svg/346/346040.svg" height="35px" style="margin-bottom: 10px" />
           <div style="font-size: 0.9em; font-weight: bold; color: #2d4255;">Matemática</div>
         </div>
 
-        <div style="display: inline-block; margin-right: 10px; text-align: center;">
+        <div class="knowledge-circle">
           <img src="https://image.flaticon.com/icons/svg/1795/1795606.svg" height="35px" style="margin-bottom: 10px" />
           <div style="font-size: 0.9em; font-weight: bold; color: #2d4255;">Português</div>
         </div>
 
         <a href='/home/c/esportes/'>
-        <div style="display: inline-block; margin-right: 10px; text-align: center;">
+        <div class="knowledge-circle">
 
             <img src="https://image.flaticon.com/icons/svg/502/502128.svg" height="35px" style="margin-bottom: 10px" />
             <div style="font-size: 0.9em; font-weight: bold; color: #2d4255;">Esportes</div>
@@ -109,31 +141,36 @@
         </div>
         </a>
 
-        <div style="display: inline-block; margin-right: 10px; text-align: center;">
+        <div class="knowledge-circle">
           <img src="https://image.flaticon.com/icons/svg/1087/1087532.svg" height="35px" style="margin-bottom: 10px" />
           <div style="font-size: 0.9em; font-weight: bold; color: #2d4255;">Biologia</div>
         </div>
 
-        <div style="display: inline-block; margin-right: 10px; text-align: center;">
+        <div class="knowledge-circle">
           <img src="https://image.flaticon.com/icons/svg/644/644438.svg" height="35px" style="margin-bottom: 10px" />
           <div style="font-size: 0.9em; font-weight: bold; color: #2d4255;">Programação</div>
         </div>
 
-      </div>
+    </div>
+
+    <style>
+      .active-learningtab {
+        color: #ee5748 !important;
+      }
+    </style>
 
       <div style="padding-left: 15px; padding-right: 15px;">
         <div class="bar-sections standard animated delay-1s" style="width: 100%;">
-          <div class="bar-section">CURSOS</div>
-          <div class="bar-section">AULAS</div>
-          <div class="bar-section active" style="color: #ee5748;">TRILHAS</div>
+                    <div ng-click="learningTabActive = 'paths'" style="cursor: pointer;" ng-class="{'active-learningtab': learningTabActive == 'paths'}" class="bar-section">TRILHAS</div>
+          <div ng-click="learningTabActive = 'courses'" style="cursor: pointer;" ng-class="{'active-learningtab': learningTabActive == 'courses'}" class="bar-section">CURSOS</div>
         </div>
       </div>
 
-      <div class="section-cards" style="padding-left: 15px; padding-right: 15px; padding-top: 5px; padding-bottom: 5px;">
+      <div class="section-cards" ng-show="learningTabActive == 'paths'" style="padding-left: 15px; padding-right: 15px; padding-top: 5px; padding-bottom: 5px;">
 
         <div class="card card-article-large" style="padding: 10px; height: 170px; word-wrap: break-word; white-space: initial; border-radius: 5px; display: inline-block; box-shadow: 0px 0px 3px 0px rgba(158,158,158,0.4);">
           <img height="35px" width="35px" style="margin-bottom: 15px;" src="https://image.flaticon.com/icons/svg/1149/1149168.svg" />
-          <div style="font-size: 1em; font-weight: bold; color: #2d4255; width: 100%;">Introdução a programação</div>
+          <div style="font-size: 1em; font-weight: bold; color: #2d4255; width: 100%;">Introdução ao Python</div>
         </div>
         <!-- end card -->
 
@@ -152,65 +189,40 @@
       </div>
       <!-- end section-cards -->
 
-      <div style="padding-left: 15px; padding-right: 15px;">
+      <div style="height: 15px"></div>
 
-        <div class="bar-sections standard animated delay-1s" style="width: 100%;">
-          <div class="bar-section active" style="color: #ee5748;">CURSOS</div>
-          <div class="bar-section">AULAS</div>
-          <div class="bar-section">TRILHAS</div>
-        </div>
+      <div ng-show="learningTabActive == 'courses'" style="padding-left: 15px; padding-right: 15px;">
 
         <coursehomebox c="{{course._id}}" ng-repeat="course in courses"></coursehomebox>
 
       </div>
       <!-- end courses aulas trilhas tab -->
 
-    </div>
-    <!-- end col-xs-12 col-sm-8 -->
-
   </div>
   <!-- end row -->
 
-  <!-- End create own university -->
+  <div class="col-xs-12 hide-mobile" style="margin-top: 30px; border-top: 1px solid #2d425524; padding-top: 35px; padding-bottom: 20px; line-height: 25px; font-size: 0.95em;">
+
+    <div class="col-xs-4">
+      <div style="color: #2d4255; display: inline-block; padding-right: 10px;"><b>© 2020 Universidade</b></div>
+      <div style="display: inline-block;"><a><b>Ajuda</b></a></div>
+    </div>
+
+    <div class="col-xs-4" style="text-align: center;">
+      <img height="25px" src="https://storage.googleapis.com/educationalcommunity/pt/img/universidade_icon.png" />
+    </div>
+
+    <div class="col-xs-4" style="text-align: right;">
+      <div style="display: inline-block; margin-right: 25px;"><a href="/ensinar"><b>Para educadores</b></a></div>
+      <div style="display: inline-block; margin-right: 25px;"><a href="#"><b>Para estudantes</b></a></div>
+    </div>
+
+  </div>
 
 </div>
 <!-- container-fluid container-full -->
 
-<div class="academia-footer" style="z-index: 9; background-color: #fff; box-shadow: 0px -2px 4px -1px rgba(0,0,0,0.15); -moz-box-shadow: 0px -2px 4px -1px rgba(0,0,0,0.15); -webkit-box-shadow: 0px -2px 4px -1px rgba(0,0,0,0.15);">
-
-  <ul style="width: 98%" style="color: #565656 !important;">
-
-    <li style="width: 20%; min-width: unset; padding-top: 4px; padding-left: 0; padding-right: 0;">
-      <a style="color: #565656 !important;" href="/home/timeline" ng-class="forumClass">
-        <i style="font-size: 1.7em; color: #52bfea; font-weight: bolder;" class="far fa-newspaper"></i>
-      </a>
-    </li><!--
-
-    --><li style="width: 20%; min-width: unset; padding-top: 4px; padding-left: 0; padding-right: 0;">
-      <a style="color: #565656 !important;" href="/home/explore">
-        <i style="font-size: 1.7em;" class="fas fa-search"></i>
-      </a>
-    </li><!--
-
-    --><li ng-click="open()" style="width: 20%; min-width: unset; padding-left: 0; padding-right: 0;">
-      <img height="53px" src="/img/universidade_actionbutton.png" />
-    </li><!--
-
-    --><li style="width: 20%; min-width: unset; padding-left: 0; padding-right: 0;">
-      <a style="color: #565656 !important;" href="/a/{{university.url}}/forum/category/all" ng-class="forumClass">
-        <i style="font-size: 1.7em;" class="fas fa-university"></i>
-      </a>
-    </li><!--
-
-    --><li style="width: 20%; min-width: unset; padding-top: 4px; padding-left: 0; padding-right: 0;">
-      <a style="color: #565656 !important;" href="/perfil" ng-class="forumClass">
-        <i style="font-size: 1.7em;" class="fas fa-user-graduate"></i>
-      </a>
-    </li>
-
-  </ul>
-
-</div>
+<footermobile></footermobile>
 
 <style>
   .swiper-container {

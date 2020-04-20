@@ -26,6 +26,8 @@ angular.module('netbase')
   $scope.page = 1;
   $scope.pages = 1;
 
+  $scope.loading = true;
+
   var studentId;
 
   if ($localStorage.token != undefined && $localStorage.token != null) {
@@ -36,11 +38,12 @@ angular.module('netbase')
 
   TimelineNew.getTimelineAll(studentId, $scope.page).success(function(res) {
 
-    console.log(res)
     let forumPosts = res.data.docs;
-    console.log(forumPosts)
+
     $scope.activities = forumPosts;
     $scope.pages = res.data.pages;
+
+    $scope.loading = false;
 
   });
   //END Timeline.getTimelineByStudentId()
@@ -71,7 +74,7 @@ angular.module('netbase')
 
 }])
 
-.directive('timelinenewforumpost', ['University', 'Students', '$filter', '$sce', '$location', 'Forum', function(University, Students, $filter, $sce, $location, Forum) {
+.directive('timelinenewforumpost', ['University', 'Students', '$filter', '$sce', '$location', 'Forum', '$localStorage', "TimelineNew", function(University, Students, $filter, $sce, $location, Forum, $localStorage, TimelineNew) {
   return {
     restrict: 'E',
     templateUrl:  '../../partials/directive/timeline/forumpostcreate.html',
@@ -86,17 +89,18 @@ angular.module('netbase')
       let like = attr.like;
       let comments = attr.comments;
 
+      scope.commentSection = false;
       scope.status = { reshare : reshare, like : like, comments : comments };
-
-      console.log("universityId: ")
-      console.log(universityId)
+      scope.sharePost = false;
+      TimelineNew.getTimelineRePostCount(contentId).success(function(res) {
+        scope.rePostCount = res.data.count-1;
+      });
 
       if ( University.isStoredLocal(universityId) ) {
 
         let universityStorage = University.retrieveStorage(universityId);
 
         scope.university = universityStorage[universityId];
-        console.log(scope.university)
 
         /* get post */
         Forum.getForumPostById(contentId, scope.university._id).then(function(res) {
@@ -105,14 +109,12 @@ angular.module('netbase')
           let data = res.data.data;
           let success = res.data.success;
 
-          console.log(res)
-
           if (status != 90010) {
 
             scope.forumPost = data;
             scope.votesCount = data.votesCount;
 
-            scope.forumPost.text = $sce.trustAsHtml($scope.forumPost.text);
+            scope.forumPost.text = $sce.trustAsHtml(scope.forumPost.text);
 
           } else {
 
@@ -128,8 +130,6 @@ angular.module('netbase')
         /* get account id */
         Students.getStudentById(accountId).then(function(res) {
 
-          console.log("response student: ");
-          console.log(res);
           scope.student = res.data.data;
 
         });
@@ -139,7 +139,6 @@ angular.module('netbase')
         University.getUniversityById(universityId).success(function(res) {
 
           scope.university = res.data;
-
           University.storeLocal(scope.university);
 
           /* get post */
@@ -172,6 +171,91 @@ angular.module('netbase')
         });
 
       }
+
+      scope.handleCommentSection = function() {
+        scope.sharePost = false;
+        scope.commentSection = !scope.commentSection;
+      }
+
+      scope.handleSharePost = function() {
+        scope.commentSection = false;
+        scope.sharePost = !scope.sharePost;
+      }
+
+      scope.createAnswerPost = function(answer) {
+        console.log(answer);
+        var data = { text : answer };
+
+        if ($localStorage.token != undefined || $localStorage.token != null) {
+          Forum.postAnswerByForumPostId(contentId, data).then(function(res) {
+
+            let status = res.data.status;
+            let data = res.data.data;
+            let success = res.data.success;
+
+            if (success) {
+              scope.commentSection = !scope.commentSection;
+
+              data.votesCount = 0;
+              data.createdAt = Math.round((new Date()).getTime() / 1000);
+              scope.forumPost.answers.push(data);
+              var timelineData = {
+                entryType: "comment",
+                modelId: contentId,
+                universityId: universityId
+              }
+              University.createForumPostTimeline(timelineData).then(function(res) {})
+
+            }
+
+          });
+        } else {
+          ngDialog.open({ template: 'partials/modals/login.html', controller: 'AccountCtrl', className: 'ngdialog-theme-default' });
+        }
+
+
+      };
+      scope.premium = { value : "0" };
+      scope.rePost = function(entryType) {
+        var data = {
+          text : scope.forumPost.text,
+          title : scope.forumPost.title,
+          premium : scope.forumPost.premium==false ? "0" : "1",
+          categoryId : scope.forumPost.categoryId
+        };
+
+        University.createForumPost(universityId, data).then(function(res) {
+
+          let status = res.data.status;
+          let data = res.data.data;
+          let success = res.data.success;
+
+          if (success) {
+            var timelineData = {
+              entryType: "repost",
+              modelId: data._id,
+              universityId: data.universityId
+            }
+            University.createForumPostTimeline(timelineData).then(function(res) {
+              // $location.path('/home/timeline')
+              window.location.reload();
+              window.scrollTo(0, 0);
+            })
+
+          }
+
+        });
+        //END University.createForumPost
+      };
+
+      scope.upvoteForumPost = function() {
+          University.upvoteForumPost(universityId, contentId).then(function(res) {
+            if (res.data.success) {
+              scope.votesCount = res.data.data.votesCount;
+              scope.forumPost.votes = res.data.data.votes;
+            }
+          });
+      };
 
     }
 

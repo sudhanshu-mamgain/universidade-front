@@ -1,10 +1,11 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
     <link rel="icon" type="image/png" href="https://storage.googleapis.com/educationalcommunity/pt/img/logo/network.png" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>Universidade</title>
     <meta property="og:title" content="Universidade" />
@@ -17,24 +18,6 @@
     <meta itemprop="description" content="Universidade, a melhor plataforma para aprender, ensinar, debater e compartilhar conhecimento.">
 
     <meta name="mobile-web-app-capable" content="yes">
-
-    <!-- Facebook Pixel Code -->
-    <script>
-      !function(f,b,e,v,n,t,s)
-      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-      n.queue=[];t=b.createElement(e);t.async=!0;
-      t.src=v;s=b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t,s)}(window, document,'script',
-      'https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', '1519548535024014');
-      fbq('track', 'PageView');
-    </script>
-    <noscript><img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=1519548535024014&ev=PageView&noscript=1"
-    /></noscript>
-    <!-- End Facebook Pixel Code -->
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-125408424-1"></script>
@@ -58,6 +41,12 @@
         })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
     </script>
 
+    <style>
+      body {
+        font-size: 16px !important;
+      }
+    </style>
+
     <base href="/">
     <link rel="stylesheet" href="https://cdn.plyr.io/3.4.7/plyr.css">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/trix/0.9.2/trix.css">
@@ -79,7 +68,7 @@
     <!--<link rel="stylesheet" href="https://storage.googleapis.com/educationalcommunity/pt/css/new/style.css" crossorigin="anonymous">-->
     <link rel="stylesheet" href="https://storage.googleapis.com/educationalcommunity/pt/css/new/modal.css" crossorigin="anonymous">
     <link rel="stylesheet" href="https://storage.googleapis.com/educationalcommunity/pt/css/new/timeline.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://storage.googleapis.com/educationalcommunity/pt/css/new/onboarding.css" crossorigin="anonymous">
+    <!--<link rel="stylesheet" href="https://storage.googleapis.com/educationalcommunity/pt/css/new/onboarding.css" crossorigin="anonymous">-->
     <link rel="stylesheet" href="https://storage.googleapis.com/educationalcommunity/pt/css/new/table.css" crossorigin="anonymous">
     <link rel="stylesheet" href="https://storage.googleapis.com/educationalcommunity/pt/css/new/manage.css" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/new/video.css" crossorigin="anonymous">
@@ -96,13 +85,16 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/swipejs/2.2.13/style.min.css">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/lcoibs/ng-sortable/1.3.8/ng-sortable.min.css">
+    <link rel="stylesheet" href="https://raw.githubusercontent.com/a5hik/ng-sortable/master/dist/ng-sortable.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-sortable/1.3.8/ng-sortable.style.css">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/angular-ui-swiper@2.3.8/dist/angular-ui-swiper.css">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css"/>
 
+    <!--<link rel="stylesheet" href="https://storage.googleapis.com/educationalcommunity/pt/css/new/onboarding.css" />-->
+    <link rel="stylesheet" href="/css/new/onboarding.css" />
+    <link rel="stylesheet" href="/css/index.css" crossorigin="anonymous">
     <!--
     <link rel="stylesheet" href="/css/base.css" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/index.css" crossorigin="anonymous">
@@ -123,6 +115,8 @@
 
   -->
 
+    <link rel="stylesheet" href="/css/classroom.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/classroom_main.css" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" crossorigin="anonymous">
 
@@ -139,12 +133,10 @@
   </head>
 
     <body ng-app="netbase" autoscroll="true">
-      <script>fbq('track', 'Lead');</script>
 
       <div ng-view="">
 
       </div>
-
     </body>
 
     <!-- https://cdn.universida.de/static/universidade -->
@@ -159,13 +151,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.6/angular-route.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-sanitize.js"></script>
     <script src="/js/update-meta.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-cookies.js"></script>
+    <script src="https://cdn.tiny.cloud/1/nu6v2gff1svxvivlhv3ehx5uo4tnn2onev0c4vkm39rtro3n/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="/js/tinymce.js"></script>
     <script src="/scripts/app.js"></script>
+    <script src="/scripts/angular-socialshare.min.js"></script>
 
     <script src="/scripts/apartments/controllers.js"></script>
 
     <script src="/scripts/payments/controller.js"></script>
 
     <script src="/scripts/timeline/controller.js"></script>
+    <script src="/js/clipboard.js"></script>
+
 
     <script src="/scripts/dashboard/payments/controller.js"></script>
     <script src="/scripts/dashboard/controllers.js"></script>
@@ -213,6 +211,7 @@
     <script src="https://cdn.jsdelivr.net/angular.chartjs/latest/angular-chart.min.js"></script>
 
     <script src="https://media.twiliocdn.com/sdk/js/chat/v3.0/twilio-chat.min.js"></script>
+    <script src="//media.twiliocdn.com/sdk/js/video/releases/2.3.0/twilio-video.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/fingerprintjs2@1.8.6/dist/fingerprint2.min.js"></script>
 
@@ -225,6 +224,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-sortable/1.3.8/ng-sortable.js"></script>
 
+    <script src="/js/ocLazyLoad.min.js"></script>
 
   </body>
 </html>

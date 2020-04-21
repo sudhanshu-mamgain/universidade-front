@@ -1040,6 +1040,7 @@ function($rootScope, $scope, $location, $route, $localStorage, Students, ngDialo
   $scope.page = false;
 
   $scope.activeSection = "modulos";
+  $scope.section = 'module';
 
   Courses.getModulesByAccount().success(function(res) {
 
@@ -1059,12 +1060,45 @@ function($rootScope, $scope, $location, $route, $localStorage, Students, ngDialo
 
     ngDialog.open({ template: 'partials/courses/modals/updateModule.html',data:{moduleData: moduleData}, controller: 'CoursesUpdateModuleCtrl', className: 'ngdialog-theme-default' });
   }
+
+  $scope.openDeletePopup = function(moduleId) {
+    console.log('delete module', moduleId);
+
+    ngDialog.open({
+      template: 'deleteModulePopup',
+      controller: 'CoursesModulosByIdCtrl',
+      data: {moduleId: moduleId},
+      width: '50%',
+      height: '40%',
+      className: 'ngdialog-theme-default'
+    });
+  }
+
+  $scope.deleteModule = function() {
+    let moduleId = $scope.ngDialogData.moduleId;
+    console.log('delete course', moduleId);
+    $scope.deleteLoading = true;
+
+    Courses.deleteModuleById(moduleId).success(function(res) {
+      console.log('delete module res', res);
+
+      if(res.success) {
+        $scope.deleteLoading = false;
+        ngDialog.close();
+        // $location.path('/cursos/suite/modulos');
+        $route.reload();
+      }
+    });
+
+
+  }
 }])
 .controller('CoursesModulossingleCtrl', ['$rootScope', '$scope', '$location', '$route', '$localStorage', 'Students', 'ngDialog', 'Courses', function($rootScope, $scope, $location, $route, $localStorage, Students, ngDialog, Courses) {
 
   $scope.page = false;
 
-  $scope.activeSection = "modulos";
+  // $scope.activeSection = "module";
+  $scope.section = 'module';
 
   let id = $route.current.params.id;
   Courses.getById(id).success(function(res) {
@@ -1087,6 +1121,8 @@ function($rootScope, $scope, $location, $route, $localStorage, Students, ngDialo
   $scope.page = false;
 
   $scope.activeSection = "content";
+  $scope.section = 'content';
+
   $scope.conteudocriar = function() {
     ngDialog.open({ template: 'partials/courses/modals/contentcreate.html', controller: 'CoursesContentCreateCtrl', className: 'ngdialog-theme-default', data : { "universityId" : "fdasdfa" } });
   }
